@@ -87,13 +87,30 @@ var locallyStore = function(country) {
 }
 
 
-var createOptions = function(countries) {
+var createOptions = function(sortedCountries) {
 
   var select = document.getElementById('country-select');
 
-  for (country of countries) {
+  var childList = select.childNodes;
+
+  // console.log(childList.length);
+
+  // if (childList.length > 0) {
+  //   for (child of childList) {
+  //     select.removeChild(child);
+  //   }
+  // }
+
+  var blankOption = document.createElement('option');
+  blankOption.disabled = true;
+  blankOption.selected = true;
+  blankOption.innerText = 'COUNTRIES';
+  select.appendChild(blankOption);
+
+  for (country of sortedCountries) {
     var option = document.createElement('option');
     option.innerText = country.name;
+    option.className = 'country-option';
     select.appendChild(option);
   }
 }
@@ -145,14 +162,13 @@ var regionOptions = function(countries) {
 
 var regionEventHandler = function(e) {
 
+  sortedCountries = [];
   for (country of countries) {
-   sortedCountries = [];
     if (country.region === e.target.value) {
       sortedCountries.push(country);
-      createOptions(sortedCountries);
     } 
   }
-
+  createOptions(sortedCountries);
 }
 
 
